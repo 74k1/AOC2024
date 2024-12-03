@@ -26,11 +26,34 @@ fn part1(input: &str) -> i32 {
     sum
 }
 
-//fn part2(input: &str) -> i32 {
-//}
+fn part2(input: &str) -> i32 {
+    let mut sum = 0;
+    let mut enabled = true;
+
+    for part in input.split(|c| c == 'm' || c == 'd') {
+        match part {
+            p if p.starts_with("o()") => enabled = true,
+            p if p.starts_with("on't()") => enabled = false,
+            p if p.starts_with("ul(") && enabled => {
+                if let Some(nums) = part[3..].split(')').next() {
+                    let numbers: Vec<&str> = nums.split(',').collect();
+                    if numbers.len() == 2 {
+                        if let (Ok(n1), Ok(n2)) = (
+                            numbers[0].trim().parse::<i32>(),
+                            numbers[0].trim().parse::<i32>()
+                        ) {
+                            sum += n1 * n2;
+                        }
+                    }
+                }
+            },
+            _ => () // ignore everything else
+        }
+    }
+    sum
+}
 
 fn main() {
-    // 1. read whole file as string
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 3 {
@@ -44,11 +67,9 @@ fn main() {
     let input = fs::read_to_string(file_path)
         .expect("Could not read file");
 
-    // 4. Calculate based on part
-
     let result = match part {
         1 => part1(&input),
-        //2 => part2(&input),
+        2 => part2(&input),
         _ => {
             println!("Invalid part number. Use 1 or 2");
             return;
