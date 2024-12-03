@@ -34,32 +34,6 @@ fn part1(list: &Vec<Vec<i32>>) -> i32 {
 fn part2(list: &Vec<Vec<i32>>) -> i32 {
     list.iter()
         .filter(|report| {
-            // First try original report
-            let original_safe = {
-                // determine direction
-                let first_diff = report[1] - report[0];
-                
-                // equal numbers are not allowed
-                if first_diff == 0 {
-                    return false;
-                } else {
-                    let is_inc = first_diff > 0;
-                    report.windows(2)
-                        .all(|pair| {
-                            let diff = pair[1] - pair[0];
-                            !((is_inc && diff <= 0) ||
-                                (!is_inc && diff >= 0) ||
-                                diff.abs() > 3)
-                        })
-                }
-            };
-
-            if original_safe {
-                return true;
-            }
-
-            // If not safe, try removing one number at a time
-
             (0..report.len()).any(|i| {
                 let mut test_report = (*report).clone();
                 test_report.remove(i);
