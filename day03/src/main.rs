@@ -40,7 +40,7 @@ fn part2(input: &str) -> i32 {
                     if numbers.len() == 2 {
                         if let (Ok(n1), Ok(n2)) = (
                             numbers[0].trim().parse::<i32>(),
-                            numbers[0].trim().parse::<i32>()
+                            numbers[1].trim().parse::<i32>()
                         ) {
                             sum += n1 * n2;
                         }
